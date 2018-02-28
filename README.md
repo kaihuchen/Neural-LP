@@ -7,9 +7,9 @@ Fan Yang, Zhilin Yang, William W. Cohen.
 NIPS 2017.
 
 ## Requirements
-- Python 2.7
+- Python 3.6
 - Numpy 
-- Tensorflow 1.0.1
+- Tensorflow 1.5
 
 ## Quick start
 The following command starts training a dataset about family relations, and stores the experiment results in the folder `exps/demo/`.
