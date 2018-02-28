@@ -114,7 +114,7 @@ class Data(object):
             self.num_operator = 2 * self.num_relation
 
         # get rules for queries and their inverses appeared in train and test
-        self.query_for_rules = list(set(zip(*self.train)[0]) | set(zip(*self.test)[0]) | set(zip(*self._augment_with_reverse(self.train))[0]) | set(zip(*self._augment_with_reverse(self.test))[0]))
+        self.query_for_rules = list(set(list(zip(*self.train))[0]) | set(list(zip(*self.test))[0]) | set(list(zip(*self._augment_with_reverse(self.train)))[0]) | set(list(zip(*self._augment_with_reverse(self.test)))[0]))
         self.parser = self._create_parser()
 
     def _create_parser(self):
@@ -126,7 +126,7 @@ class Data(object):
         for key, value in self.relation_to_number.items():
             parser["query"][value] = key
             parser["query"][value + self.num_relation] = "inv_" + key
-        for query in xrange(self.num_relation):
+        for query in range(self.num_relation):
             d = {}
             if self.type_check:
                 for i, o in enumerate(self.domains[query]):
@@ -153,7 +153,7 @@ class Data(object):
                 else:
                     # fill in blanks
                     num_remain = self.domain_size - len(this_domain)
-                    remains = [i for i in xrange(self.num_relation) 
+                    remains = [i for i in range(self.num_relation) 
                                  if i not in this_domain]
                     pads = np.random.choice(remains, num_remain, replace=False)
                     this_domain += list(pads)
@@ -161,7 +161,7 @@ class Data(object):
                 assert(len(set(this_domain)) == self.domain_size)
                 assert(len(this_domain) == self.domain_size)
                 result[relation] = this_domain
-        for r in xrange(self.num_relation):
+        for r in range(self.num_relation):
             if r not in result.keys():
                 result[r] = np.random.choice(range(self.num_relation), 
                                              self.domain_size, 
@@ -210,7 +210,7 @@ class Data(object):
 
     def _db_to_matrix_db(self, db):
         matrix_db = {r: ([[0,0]], [0.], [self.num_entity, self.num_entity]) 
-                     for r in xrange(self.num_relation)}
+                     for r in range(self.num_relation)}
         for i, fact in enumerate(db):
             rel = fact[0]
             head = fact[1]
@@ -245,9 +245,9 @@ class Data(object):
         self.valid_start = 0
         self.test_start = 0
         if not self.type_check:
-            self.num_batch_train = self.num_train / batch_size + 1
-            self.num_batch_valid = self.num_valid / batch_size + 1
-            self.num_batch_test = self.num_test / batch_size + 1
+            self.num_batch_train = self.num_train // batch_size + 1
+            self.num_batch_valid = self.num_valid // batch_size + 1
+            self.num_batch_test = self.num_test // batch_size + 1
         else:
             self.num_batch_train = self._count_batch(self.train, batch_size)
             self.num_batch_valid = self._count_batch(self.valid, batch_size)

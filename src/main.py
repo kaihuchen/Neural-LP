@@ -47,8 +47,9 @@ def main():
     # optimization
     parser.add_argument('--batch_size', default=64, type=int)
     parser.add_argument('--print_per_batch', default=3, type=int)
-    parser.add_argument('--max_epoch', default=10, type=int)
-    parser.add_argument('--min_epoch', default=5, type=int)
+    parser.add_argument('--max_epoch', default=50000, type=int)
+    parser.add_argument('--min_epoch', default=5000, type=int)
+    parser.add_argument('--save_every', default=50, type=int)
     parser.add_argument('--learning_rate', default=0.001, type=float)
     parser.add_argument('--no_norm', default=False, action="store_true")
     parser.add_argument('--thr', default=1e-20, type=float)

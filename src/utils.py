@@ -22,9 +22,9 @@ def list_rules(attn_ops, attn_mems, the):
     """
     
     num_step = len(attn_ops)
-    paths = {t+1: [] for t in xrange(num_step)}
+    paths = {t+1: [] for t in range(num_step)}
     paths[0] = [([], 1.)]
-    for t in xrange(num_step):
+    for t in range(num_step):
         for m, attn_mem in enumerate(attn_mems[t]):
             for p, w in paths[m]:
                 paths[t+1].append((p, w * attn_mem))
@@ -37,7 +37,8 @@ def list_rules(attn_ops, attn_mems, the):
             paths[t+1] = new_paths
     this_the = min([the], max([w for (_, w) in paths[num_step]]))
     final_paths = filter(lambda x: x[1] >= this_the, paths[num_step])
-    final_paths.sort(key=lambda x: x[1], reverse=True)
+#    final_paths.sort(key=lambda x: x[1], reverse=True)
+    final_paths = sorted(final_paths, key=lambda x: x[1], reverse=True)
     
     return final_paths
 
@@ -77,7 +78,7 @@ def print_rules(q_id, rules, parser, query_is_language):
                 "%0.3f (%0.3f)\t%s(B, A) <-- equal(B, A)" 
                 % (w, w_normalized, query))
         else:
-            lvars = [chr(i + 65) for i in xrange(1 + len(rule))]
+            lvars = [chr(i + 65) for i in range(1 + len(rule))]
             printed_rule = "%0.3f (%0.3f)\t%s(%c, %c) <-- " \
                             % (w, w_normalized, query, lvars[-1], lvars[0]) 
             for i, literal in enumerate(rule):
